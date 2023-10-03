@@ -23,51 +23,55 @@ namespace Protmusis
             name = Console.ReadLine();
             Console.WriteLine("Įveskite savo pavardę: ");
             forname = Console.ReadLine();
+            string fullname = name + " " + forname;
             Console.WriteLine();
-            PlayerList = Prisijungimas(name, forname, PlayerList);
+            PlayerList = Prisiregistravimas(name, forname, PlayerList);
+            Console.Clear();
+            Console.WriteLine("Sveikas prisijungęs: " + name);
+            Console.WriteLine();
+
             MeniuList();
             Console.WriteLine();
             Console.WriteLine();
 
-
-
             while (true)
             {
-                Console.WriteLine("Jūsų pasirinkimas " + name);
-
                 var input = Console.ReadLine().ToLower();
 
                 if (input == "q")
                 {
+                    Console.Clear();
+                    Console.WriteLine("Jūsų pasirinkimas " + name);
+                    Console.WriteLine();
                     MeniuList();
-                }
+                    Console.WriteLine();
+                }// sugryzti i meniu
 
                 if (input == "1")
                 {
                     Console.Clear();
                     Console.WriteLine("Įveskite savo vardą: ");
-                    name = Console.ReadLine();
+                    string name2 = Console.ReadLine();
                     Console.WriteLine("Įveskite savo pavardę: ");
-                    forname = Console.ReadLine();
+                    string forname2 = Console.ReadLine();
                     Console.WriteLine();
-                    PlayerList = Prisijungimas(name, forname, PlayerList);
+                    PlayerList = Prisiregistravimas(name, forname, PlayerList);
 
                     Console.WriteLine("Norėdami gryžti į meniu spauskite 'Q'");
-
-
-                }// Prisijungimas sutvarkytas
+                }// Prisijungimas 
 
                 if (input == "2")
                 {
                     Console.Clear();
-                    Console.WriteLine("Ačiū už dalyvavimą!");
+                    Console.WriteLine(name + " ačiū už dalyvavimą!");
                     Thread.Sleep(1500);
                     break;
-                }//nutraukiamas zaidimas Dar reikes sutvarkyti
+                }//nutraukiamas zaidimas 
 
                 if (input == "3")
                 {
                     Console.Clear();
+                    Console.WriteLine("                                               Žaidėjas " + name);
                     GameRuels();
                     Console.WriteLine();
                     Console.WriteLine("Norėdami gryžti į meniu spauskite 'Q'");
@@ -77,43 +81,79 @@ namespace Protmusis
                 if (input == "4")
                 {
                     Console.Clear();
-                    gameResult(PlayerList);
+                    Console.WriteLine("                                               Žaidėjas " + name);
+                    Console.WriteLine();
+                    gameResult(fullname, PlayerList);
+                    Console.WriteLine();
+                    //Console.WriteLine("Norėdami gryžti į meniu spauskite 'Q'");
 
-                }//zaideju antspausdinimas
+                }//zaideju antspausdinimas (neveikia Y)
 
                 if (input == "5")
                 {
-                    StartGame(name, PlayerList);
+                    Console.Clear();
+                    Console.WriteLine("                                               Žaidėjas " + name);
+                    Console.WriteLine();
+                    StartGame(fullname, PlayerList);
                     Console.WriteLine();
                     Console.WriteLine("Norėdami gryžti į meniu spauskite 'Q'");
+                }// zaidimas
 
-                }//zaidimas
-
-                else
+                if (input == "6")
                 {
-                    Console.WriteLine("Netinkamas pasirinkimas");
-                }// netinkamas pasirinkimas
-
+                    Console.Clear();
+                    Console.Clear();
+                    Console.WriteLine("                                               Žaidėjas " + name);
+                    Console.WriteLine();
+                    NaujoRegistravimas(name, forname, PlayerList);
+                    Console.WriteLine();
+                    Console.WriteLine("Norėdami gryžti į meniu spauskite 'Q'");
+                }// naujo zaidejo registravimas
             }
-
         }
+        public static Dictionary<string, int> NaujoRegistravimas(string name1, string forname1, Dictionary<string, int> PlayerList)
+        {
+            Console.WriteLine("Įveskite savo vardą: ");
+            string name2 = Console.ReadLine();
+            Console.WriteLine("Įveskite savo pavardę: ");
+            string forname2 = Console.ReadLine();
 
-        public static Dictionary<string, int> gameResult(Dictionary<string, int> PlayerList)
+            string fullname = name2 + " " + forname2;
+
+            if (PlayerList.ContainsKey(fullname))
+            {
+                Console.WriteLine("Jūs naudojate jau egzistuojančio vartotojo paskyrą");
+            }
+            else
+            {
+                PlayerList[fullname] = 0;
+                Console.WriteLine("Sveikas prisijungęs " + name2);
+                Console.WriteLine();
+            }
+            return PlayerList;
+        }
+        public static Dictionary<string, int> gameResult(string name, Dictionary<string, int> PlayerList)
         {
             List<string> playerL = new List<string>();
             playerL.Add("Pasirinkite:");
             playerL.Add("1 - Dalyvių sąrašas");
-            //playerL.Add("2 - Dalyvių ir razultatų sąrašas");
+            playerL.Add("2 - Dalyvių ir razultatų sąrašas");
+            Console.Clear();
+            Console.WriteLine("                                               Žaidėjas " + name);
+            Console.WriteLine();
             foreach (string playerlis in playerL)
             {
                 Console.WriteLine(playerlis);
                 Console.WriteLine();
             }
 
-            string inputplayerList = Console.ReadLine().ToLower();
+            string inputplayerList = Console.ReadLine().ToLower(); // q veikia bet neveikia y
 
             if (inputplayerList == "Y")
             {
+                Console.Clear();
+                Console.WriteLine("                                               Žaidėjas " + name);
+                Console.WriteLine();
                 foreach (string playerlis in playerL)
                 {
                     Console.WriteLine(playerlis);
@@ -123,198 +163,179 @@ namespace Protmusis
             }// sugrazina i saraso meniu
             if (inputplayerList == "1")
             {
-
+                Console.Clear();
+                Console.WriteLine("                                            Žaidėjas " + name);
+                Console.WriteLine();
                 foreach (var list in PlayerList)
                 {
                     Console.WriteLine("Žaidėjas : " + list.Key);
-                    Console.WriteLine();
-
-                    Console.WriteLine("Norėdami gryžti į pagrindinį MENIU spauskite 'Q'");
-                    Console.WriteLine();
-                    Console.WriteLine("Norėdami gryžti į Žaidėjų sąrašo meniu spauskite 'Y'");
-                    Console.WriteLine();
-
-
                 }
-            }// dalyviu sarasas
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("Norėdami gryžti į pagrindinį MENIU spauskite 'Q'");
 
+                Console.WriteLine("Norėdami gryžti į Žaidėjų sąrašo meniu spauskite 'Y'");
+                Console.WriteLine();
+
+            }// dalyviu sarasas
             if (inputplayerList == "2")
             {
-                Console.Clear(); 
+                Console.Clear();
+                Console.WriteLine("                                             Žaidėjas " + name);
+                Console.WriteLine();
                 //pagal kokia reiksme bus rusiuojama
                 var sortedPlayerScores = PlayerList.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
-
+                int volum1 = 0;
                 foreach (var list in sortedPlayerScores)
                 {
-                    //for (i = 0; i < sortedPlayerScores.Count; i++)
-                    //{
+                    if (volum1 < 10)
+                    {
+                        Console.Write((volum1 + 1) + " )");
+                    }
 
-                    //}
+                    for (int i = 0; i <= volum1 && volum1 < 3; i++)
+                    {
+                        Console.Write(" * ");
+                    }
 
+                    Console.WriteLine(list.Key + " turimi taškai: " + list.Value);
+                    Console.WriteLine();
 
-                    //        Console.WriteLine("Žaidėjas : " + list.Key + " turimi taškai: " + list.Value);
-                    //        Console.WriteLine();
-                    //        Console.WriteLine("Norėdami gryžti į pagrindinį MENIU spauskite 'Q'");
-                    //        Console.WriteLine();
-                    //        Console.WriteLine("Norėdami gryžti į Žaidėjų sąrašo meniu spauskite 'Y'");
-                    //        Console.WriteLine();
-                    //        Console.Clear();
-                    //    }
-
-
-                    //}// nesutvarkytas
-                    
+                    volum1++;
                 }
-            }
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("Norėdami gryžti į pagrindinį MENIU spauskite 'Q'");
+                Console.WriteLine("Norėdami gryžti į Žaidėjų sąrašo meniu spauskite 'Y'");
+                Console.WriteLine();
+
+            }// dalyviu sarasas su rezultatais
             return PlayerList;
         }
-        public static Dictionary<string, int> StartGame(string name, Dictionary<string, int> PlayerList)//reikes paduoti zaideju dictionary tam kad papildyti jo value
+        public static Dictionary<string, int> StartGame(string name1, Dictionary<string, int> PlayerList)//reikes paduoti zaideju dictionary tam kad papildyti jo value
         {
             Dictionary<string, string> gameMovie = new Dictionary<string, string>()//reikes panaudoti ToLower
             {
-                {"Kuris aktorius pelnė geriausią aktoriaus Oskarą už filmus „Filadelfija“ (1993) ir „Forrest Gump“ (1994)?", "tom hanks" },
-                {"Kuris aktorius pateikė balsą personažui Nemo 2003 m. Filme „Rasti Nemo“?", "aleksandras gouldas" },
-                {"Amerikiečių aktorė, vaidinusi Tokijo požemio boso O-Ren Ishii vaidmenį filme „KillBill I I & II“", "lucy liu" },
-                {"Kaip vadinasi 2015 m. Filmas apie pasienietį 1820-ųjų prekybos kailiais ekspedicijoje ir jo kovą už išlikimą, kai mane nugvelbė meška?", "wielebny" },
-                {"Kuris 1982 m. Filmas buvo labai gerbėjų sutiktas dėl meilės tarp jauno, tėvo neturinčio priemiesčio berniuko ir pasiklydusio, geranoriško bei namuose gyvenančio svečio iš kitos planetos vaizdavimo?", "ir nežemiškas" },
-            };// pirma kategorija
+                {"Kuriame filme vaidina Keanu Reeves?\r\n a) \"Pirmasis kraujas\" \r\n b) \"Transformeriai\" \r\n c) \"Matrix\" \r\n d) \"Alkai\"", "c" },
+                {"Kas yra žinomas kaip 'Žiedo valdovas' 'Žiedų valdovo' filme?\r\n a) Aragorn\r\n b) Gandalfas\r\n c) Frodo\r\n d) Legolas", "c" },
+                {"Koks yra Tarantino filmo 'Pulp Fiction' pagrindinis veikėjas?\r\na) Vincent Vega\r\nb) Jack Dawson\r\nc) Forrestas Gampas\r\nd) Hannibalas Lecteris", "a" },
+                {"Kas yra 'Harry Potter' knygų ir filmų pagrindinis veikėjas?\r\na) Ronas Weasley\r\nb) Hermiona Granger\r\nc) Draco Malfoy\r\nd) Harry Potter", "d" },
+                {"Kuriame filme pasirodo 'Terminatorius' vaidinamas Arnold Schwarzenegger?\r\na) \"Predatorius\"\r\nb) \"Terminatorius 2: teismas dienos šviesoje\"\r\nc) \"Aliens\"\r\nd) \"Rambo\"", "b" },
+            };// pirma kategorija 5 klausimai
 
             Dictionary<string, string> gameSport = new Dictionary<string, string>()
             {
-                {"Kas 2001 m. Buvo BBC „Metų sporto asmenybė“?", "davidas beckhamas" },
-                {"Kokiomis sporto šakomis pasižymėjo Neilas Adamsas?", "dziudo" },
-                {"Kuri šalis laimėjo 1982 m. Ispanijos pasaulio taurę, įveikdama Vakarų Vokietiją 3-1?", "italija" },
-                {"Kuri komanda laimėjo Amerikos futbolo „Superbowl“ 1993, 1994 ir 1996 m.", "dallas cowboys" },
-                {"Kuriame sporte kanadietis Connor McDavid yra kylanti žvaigždė?", "ledo ritulys" }
+                {"Kuris sportininkas laikomas 'The Greatest' (Didžiausiu) bokso pasaulyje?\r\na) Mike Tyson\r\nb) Muhammad Ali\r\nc) Manny Pacquiao\r\nd) Sugar Ray Robinson", "b" },
+                {"Kiekvieno NFL futbolo komandos sezono pradžioje paprastai vyksta vienas stebuklingas rungtynių vakaras. Kaip jis vadinamas?\r\na) Įšaldytasis tundra\r\nb) Pradedamosios rungtynės\r\nc) Šeimos diena\r\nd) Super Bowl", "b" },
+                {"Kas yra \"Wimbledon\" teniso turnyro specialumas?\r\na) Diržas\r\nb) Smuikas\r\nc) Raudonas kilimėlis\r\nd) Žalia aikštelė?", "d" },
+                {"Kuriame mieste vyksta kasmetinis \"Tour de France\" dviračių lenktynių turas?\r\na) Londonas\r\nb) Paryžius\r\nc) Barselona\r\nd) Romos", "b" },
+                {"Kiekvienas krepšininkas svajoja laimėti \"NBA\" čempionato žiedą. Kokia komanda daugiausia kartų laimėjo šį žiedą?\r\na) Los Angeles Lakers\r\nb) Boston Celtics\r\nc) Chicago Bulls\r\nd) Miami Heat", "a" }
             };// antra kategorija
 
             Dictionary<string, string> gameScience = new Dictionary<string, string>()
             {
-                {"Kas numetė plaktuką ir plunksną Mėnulyje, kad parodytų, jog be oro jie krenta tokiu pat greičiu?", "davidas scottas" },
-                {"Kas išrado gramofoną?", "emilis berlineris" },
-                {"Kiek metų užtruks iš Žemės paleidžiamas erdvėlaivis, kad pasiektų Plutono planetą?", "devyni su puse metų" },
-                {"1930 m. Albertui Einšteinui ir jo kolegai buvo išduotas JAV patentas 1781541. Kam jis skirtas?", "šaldytuvsa" },
-                {"Kas išrado žmogaus gaminamus gazuotus gėrimus?", "joseph priestley" }
+                {"Kas yra H2O cheminė formulė?\r\na) Anglies dioksidas\r\nb) Vanduo\r\nc) Amoniakas\r\nd) Oksigenas", "b" },
+                {"Kas yra periodinės lentelės pirmasis elementas?", "c" },
+                {"Kas yra populiariausia mokslinė teorija apie visatos atsiradimą?", "d" },
+                {"Kas yra genetinės medžiagos molekulė, kuri yra atsakinga už paveldimumą?\r\na) Rūgštis\r\nb) DNR (deoksiribonukleorūgštis)\r\nc) Fermentas\r\nd) Karbonatas?", "b" },
+                {"Koks elementas sudaro daugumą Žemės atmosferos?\r\na) Azotas\r\nb) Hidrogenas\r\nc) Deguonis\r\nd) Anglis", "a" }
             };// trecia kategorija
-
-            Dictionary<string, string> gameFootball = new Dictionary<string, string>()
-            {
-                {"Kuris klubas laimėjo 1986 m. FA taurės finalą?", "liverpool" },
-                {"Kuris vartininkas turi rekordą, kad laimėjo daugiausiai Anglijos kepurių, per savo žaidimo karjerą iškovojęs 125 kepures?", "peter shilton" },
-                {"Koks yra sero Alexo Fergusono vardas?", "chapman" },
-                {"Ar galite įvardyti vadybininką, kuris 1977 m. Vadovavo Anglijos nacionalinei komandai?", "ronas grinvudas" },
-                {"Kuri „Lancashire“ komanda žaidžia savo namų žaidimus „Ewood Park“?", "blackburn rovers" }
-            };// ketvirta kategorija                    
 
             List<string> kategories = new List<string>();
             kategories.Add("Pasirinkite kategorija:");
             kategories.Add("1 - Filmai");
             kategories.Add("2 - Sportas");
             kategories.Add("3 - Mokslas");
-            kategories.Add("4 - Futbolas");
-            kategories.Add("5 - Grįžti į pagrindinį meniu");
 
             foreach (string category in kategories)
             {
                 Console.WriteLine(category);
             } //pasirinktu kategoriju atspausdinimas
+
             int choosecategories = Convert.ToInt32(Console.ReadLine());
 
             if (choosecategories == 1)
             {
-                string[] movie = gameMovie.Keys.ToArray();
+                Console.Clear();
+                string[] movie = gameMovie.Values.ToArray();
+                string[] moviequestion = gameMovie.Keys.ToArray();
                 int volum = 0;
-
                 int index = 0;
-                for (int i = 0; index < movie.Length; i++)
+                for (int i = 0; index < moviequestion.Length; i++)
                 {
-                    Console.WriteLine(movie[index]);
+                    Console.WriteLine(moviequestion[index]);
                     Console.WriteLine("Atsakymas");
                     string answer = Console.ReadLine().ToLower();
 
-                    if (gameMovie.ContainsValue(answer))
+                    if (movie[index].Contains(answer))
                     {
                         volum++;
                     }
+
+
                     index++;
+                    Console.Clear();
                 }
+                PlayerList[name1] = volum;
 
             }//gameMovie
 
             if (choosecategories == 2)
             {
-                string[] sport = gameSport.Keys.ToArray();
-
+                Console.Clear();
+                string[] sport = gameSport.Values.ToArray();
+                string[] sportquestion = gameSport.Keys.ToArray();
                 int volum = 0;
-
                 int index = 0;
-                for (int i = 0; index < sport.Length; i++)
+                for (int i = 0; index < sportquestion.Length; i++)
                 {
-                    Console.WriteLine(sport[index]);
+                    Console.WriteLine(sportquestion[index]);
                     Console.WriteLine("Atsakymas");
                     string answer = Console.ReadLine().ToLower();
 
-                    if (gameMovie.ContainsValue(answer))
+                    if (sport[index].Contains(answer))
                     {
                         volum++;
                     }
+
+
                     index++;
+                    Console.Clear();
                 }
-                PlayerList[name] = volum;
+                PlayerList[name1] = volum;
+                Console.Clear();
+
             }//gameSport
 
             if (choosecategories == 3)
             {
-                string[] science = gameScience.Keys.ToArray();
+                Console.Clear();
+                string[] science = gameScience.Values.ToArray();
+                string[] sciencequestion = gameScience.Keys.ToArray();
                 int volum = 0;
-
                 int index = 0;
-                for (int i = 0; index < science.Length; i++)
+                for (int i = 0; index < sciencequestion.Length; i++)
                 {
-                    Console.WriteLine(science[index]);
+                    Console.WriteLine(sciencequestion[index]);
                     Console.WriteLine("Atsakymas");
                     string answer = Console.ReadLine().ToLower();
 
-                    if (gameMovie.ContainsValue(answer))
+                    if (science[index].Contains(answer))
                     {
                         volum++;
                     }
                     index++;
+                    Console.Clear();
                 }
-                PlayerList[name] = volum;
+                PlayerList[name1] = volum;
 
-            }//gameScience
-
-            if (choosecategories == 4)
-            {
-                string[] football = gameFootball.Keys.ToArray();
-                int volum = 0;
-
-                int index = 0;
-                for (int i = 0; index < football.Length; i++)
-                {
-                    Console.WriteLine(football[index]);
-                    Console.WriteLine("Atsakymas");
-                    string answer = Console.ReadLine().ToLower();
-
-                    if (gameMovie.ContainsValue(answer))
-                    {
-                        volum++;
-                    }
-                    index++;
-                }
-                PlayerList[name] = volum;
-            }//gameFootball
-
-            if (choosecategories == 5)
-            {
-                MeniuList();
-            }//gryžti i pagrindini meniu
+            }//gameScience    
 
             return PlayerList;
-
-
-
         }
         public static void GameRuels()
         {
@@ -330,24 +351,15 @@ namespace Protmusis
 
 
         }
-        public static Dictionary<string, int> Prisijungimas(string name, string forname, Dictionary<string, int> PlayerList)
+        public static Dictionary<string, int> Prisiregistravimas(string name, string forname, Dictionary<string, int> PlayerList)
         {
-            string fullname = name + " " + forname;
 
-            if (PlayerList.ContainsKey(fullname))
-            {
-                Console.WriteLine("Jūs naudojate jau egzistuojančio vartotojo paskyrą");
-            }
-            else
-            {
-                PlayerList[name + " " + forname] = 0;
-                Console.WriteLine("Sveikas prisijungęs " + name);
-                Console.WriteLine();
-            }
-
+            PlayerList[name + " " + forname] = 0;
+            Console.WriteLine("Sveikas prisijungęs " + name);
+            Console.WriteLine();
             return PlayerList;
 
-        }//neivykdo if salygos
+        }
         public static void MeniuList()
         {
             List<string> meniu = new List<string>();
@@ -366,8 +378,9 @@ namespace Protmusis
 
 
         }
-
-
     }
 }
+
+
+
 
